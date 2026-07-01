@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Media Server - Stream & Download</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #141414;
+            color: #ffffff;
+            padding-bottom: 50px;
+        }
+        header {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            padding: 20px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: #141414;
+        }
+        .logo {
+            color: #E50914;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .server-status {
+            font-size: 14px;
+            color: #46d369;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .server-status::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #46d369;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #46d369;
+        }
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: radial-gradient(circle, rgba(229,9,20,0.15) 0%, rgba(20,20,20,1) 70%);
+        }
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        .hero p {
+            color: #aaa;
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .main-container {
+            padding: 0 6%;
+        }
+        .section-title {
+            font-size: 22px;
+            margin: 30px 0 15px 0;
+            color: #e5e5e5;
+            border-left: 4px solid #E50914;
+            padding-left: 10px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background-color: #181818;
+            border-radius: 6px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #222;
+            position: relative;
+        }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            border-color: #E50914;
+        }
+        .card-media {
+            width: 100%;
+            height: 240px;
+            background-color: #2f2f2f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #555;
+            position: relative;
+        }
+        .card-media svg {
+            width: 50px;
+            height: 50px;
+            fill: #444;
+        }
+        .card:hover .card-media svg {
+            fill: #E50914;
+        }
+        .card-info {
+            padding: 12px;
+        }
+        .card-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .card-tag {
+            font-size: 11px;
+            background-color: #333;
+            color: #aaa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .popup-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .popup {
+            background-color: #181818;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid #E50914;
+            box-shadow: 0 0 30px rgba(229, 9, 20, 0.3);
+        }
+        .popup h2 {
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+        .popup p {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        .popup .btn {
+            display: block;
+            background-color: #E50914;
+            color: white;
+            text-decoration: none;
+            padding: 14px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background 0.2s;
+        }
+        .popup .btn:hover {
+            background-color: #b81d24;
+        }
+        .close-btn {
+            margin-top: 15px;
+            color: #777;
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">NETBOX</div>
+        <div class="server-status">UK Premium Server Online</div>
+    </header>
+
+    <div class="hero">
+        <h1>Unlimited Movies, Games & Shows</h1>
+        <p>High-speed local community server. Select any content below to stream or download instantly in Ultra HD.</p>
+    </div>
+
+    <div class="main-container">
+        
+        <!-- MOVIES SECTION -->
+        <div class="section-title">Trending Movies</div>
+        <div class="grid">
+            <div class="card" onclick="openLocker('28 Years Later (2026)')">
+                <div class="card-media">
+                    <svg viewBox="0 0 24 24"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">28 Years Later (2026)</div>
+                    <div class="card-tag">Movie / HD</div>
+                </div>
+            </div>
+            <div class="card" onclick="openLocker('Deadpool & Wolverine')">
+                <div class="card-media">
+                    <svg viewBox="0 0 24 24"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Deadpool & Wolverine</div>
+                    <div class="card-tag">Movie / 4K</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TV SERIES & DRAMA SECTION -->
+        <div class="section-title">Popular Series & Drama</div>
+        <div class="grid">
+            <div class="card" onclick="openLocker('Stranger Things Season 5')">
+                <div class="card-media">
+                    <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Stranger Things S05</div>
+                    <div class="card-tag">Series / Full Episodes</div>
+                </div>
+            </div>
+            <div class="card" onclick="openLocker('House of the Dragon')">
+                <div class="card-media">
+                    <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">House of the Dragon</div>
+                    <div class="card-tag">Drama / Top Rated</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GAMES SECTION -->
+        <div class="section-title">Hot Games</div>
+        <div class="grid">
+            <div class="card" onclick="openLocker('GTA VI Mobile Beta')">
+                <div class="card-media">
+                    <svg viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">GTA VI Mobile Beta</div>
+                    <div class="card-tag">Game / Android & iOS</div>
+                </div>
+            </div>
+            <div class="card" onclick="openLocker('Minecraft Premium Free')">
+                <div class="card-media">
+                    <svg viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Minecraft Full Mobile</div>
+                    <div class="card-tag">Game / Latest Mod</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- CPA POPUP LOCKER BOX -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup">
+            <h2 id="mediaTitle">Content Locked</h2>
+            <p>To prevent server overload and abuse, we require a quick verification. Access will unlock automatically after completion!</p>
+            
+            <!-- REPLACE THE HREF WITH YOUR CPAGRIP LOCKER LINK -->
+            <a href="YOUR_CPAGRIP_LOCKER_LINK_HERE" class="btn">Unlock Access Now</a>
+            
+            <div class="close-btn" onclick="closeLocker()">Cancel</div>
+        </div>
+    </div>
+
+    <script>
+        function openLocker(title) {
+            document.getElementById('mediaTitle').innerText = "Unlock " + title;
+            document.getElementById('popupOverlay').classList.add('active');
+        }
+        function closeLocker() {
+            document.getElementById('popupOverlay').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
