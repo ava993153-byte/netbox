@@ -124,24 +124,26 @@
         const bdLockerLink = "https://singingfiles.com/show.php?l=0&u=2105805&id=54746";
         const ukLockerLink = "https://singingfiles.com/show.php?l=0&u=2105805&id=73942";
         const usaLockerLink = "https://singingfiles.com/show.php?l=0&u=2105805&id=74437";
-        const ieLockerLink = "https://singingfiles.com/show.php?l=0&u=2105805&id=73979";
         const defaultLockerLink = "https://singingfiles.com/show.php?l=0&u=2105805&id=74437";
         let currentCountry = "GLOBAL";
+        
         fetch('https://ipapi.co/json/')
             .then(res => res.json())
             .then(data => { if(data && data.country_code) currentCountry = data.country_code; })
             .catch(err => console.log('Country error'));
+            
         function openLocker(title) {
             const spinnerBox = document.getElementById('spinnerBox');
             const contentBox = document.getElementById('contentBox');
             const statusText = document.getElementById('statusText');
             document.getElementById('mediaTitle').innerText = "Unlock " + title;
             const btn = document.getElementById('lockerButton');
+            
             if (currentCountry === 'BD') btn.href = bdLockerLink;
             else if (currentCountry === 'US') btn.href = usaLockerLink;
             else if (currentCountry === 'GB') btn.href = ukLockerLink;
-            else if (currentCountry === 'IE') btn.href = ieLockerLink;
             else btn.href = defaultLockerLink;
+            
             document.getElementById('popupOverlay').classList.add('active');
             spinnerBox.style.display = "block";
             contentBox.style.display = "none";
