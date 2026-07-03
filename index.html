@@ -96,21 +96,15 @@
         }
         .card-media {
             width: 100%;
-            height: 240px;
+            height: 250px;
             background-color: #2f2f2f;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #555;
             position: relative;
+            overflow: hidden;
         }
-        .card-media svg {
-            width: 50px;
-            height: 50px;
-            fill: #444;
-        }
-        .card:hover .card-media svg {
-            fill: #E50914;
+        .card-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .card-info {
             padding: 12px;
@@ -155,21 +149,40 @@
             background-color: #181818;
             padding: 30px;
             border-radius: 12px;
-            max-width: 400px;
+            max-width: 440px;
             width: 90%;
             text-align: center;
             border: 1px solid #E50914;
             box-shadow: 0 0 30px rgba(229, 9, 20, 0.3);
         }
         .popup h2 {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             font-size: 22px;
+            color: #fff;
         }
         .popup p {
-            color: #aaa;
+            color: #bbb;
             font-size: 14px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             line-height: 1.5;
+        }
+        .survey-notice {
+            background-color: rgba(229, 9, 20, 0.1);
+            border: 1px dashed #E50914;
+            padding: 12px;
+            font-size: 13px;
+            color: #ff4a54;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            text-align: left;
+            line-height: 1.5;
+        }
+        .survey-notice hr {
+            border: 0;
+            height: 1px;
+            background: rgba(229, 9, 20, 0.3);
+            margin: 8px 0;
         }
         .popup .btn {
             display: block;
@@ -181,6 +194,8 @@
             font-weight: bold;
             font-size: 16px;
             transition: background 0.2s;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
         }
         .popup .btn:hover {
             background-color: #b81d24;
@@ -192,13 +207,33 @@
             cursor: pointer;
             text-decoration: underline;
         }
+        .spinner-box {
+            display: none;
+            margin-bottom: 15px;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-top-color: #E50914;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .status-text {
+            font-size: 13px;
+            color: #aaa;
+        }
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo">NETBOX</div>
-        <div class="server-status">UK Premium Server Online</div>
+        <div class="server-status">Premium Media Server Online</div>
     </header>
 
     <div class="hero">
@@ -213,20 +248,20 @@
         <div class="grid">
             <div class="card" onclick="openLocker('28 Years Later (2026)')">
                 <div class="card-media">
-                    <svg viewBox="0 0 24 24"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>
+                    <img src="https://m.media-amazon.com/images/M/MVmYmEyN2QtNjJkYy00OTZkLTg4MmMtNDRhYzUwOGI4MjVlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="28 Years Later">
                 </div>
                 <div class="card-info">
                     <div class="card-title">28 Years Later (2026)</div>
-                    <div class="card-tag">Movie / HD</div>
+                    <div class="card-tag">Movie / Ultra HD</div>
                 </div>
             </div>
             <div class="card" onclick="openLocker('Deadpool & Wolverine')">
                 <div class="card-media">
-                    <svg viewBox="0 0 24 24"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>
+                    <img src="https://m.media-amazon.com/images/M/MVmY0Nzg3MjctM2U4Yy00ZDYzLTk2MWUtYTE2Y2RkM2Y5NThlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="Deadpool & Wolverine">
                 </div>
                 <div class="card-info">
                     <div class="card-title">Deadpool & Wolverine</div>
-                    <div class="card-tag">Movie / 4K</div>
+                    <div class="card-tag">Movie / 4K Ultra</div>
                 </div>
             </div>
         </div>
@@ -236,7 +271,7 @@
         <div class="grid">
             <div class="card" onclick="openLocker('Stranger Things Season 5')">
                 <div class="card-media">
-                    <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
+                    <img src="https://m.media-amazon.com/images/M/MVmZODMyZDMtODk5Zi00YmZmLWE4YTctNzE4NjYxN2NkM2NlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="Stranger Things">
                 </div>
                 <div class="card-info">
                     <div class="card-title">Stranger Things S05</div>
@@ -245,7 +280,7 @@
             </div>
             <div class="card" onclick="openLocker('House of the Dragon')">
                 <div class="card-media">
-                    <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
+                    <img src="https://m.media-amazon.com/images/M/MVmOTU4MDYxN2EtMjI4MC00MWJmLWE1YTctNjkyNTE0N2VkMzg4XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="House of the Dragon">
                 </div>
                 <div class="card-info">
                     <div class="card-title">House of the Dragon</div>
@@ -255,24 +290,42 @@
         </div>
 
         <!-- GAMES SECTION -->
-        <div class="section-title">Hot Games</div>
+        <div class="section-title">Premium Games (Android / PC)</div>
         <div class="grid">
-            <div class="card" onclick="openLocker('GTA VI Mobile Beta')">
+            <div class="card" onclick="openLocker('GTA VI Full Setup')">
                 <div class="card-media">
-                    <svg viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                    <img src="https://m.media-amazon.com/images/M/MVmYmFiODZlYWEtNGNmYS00ZGFhLTlhYjYtMGMwZDIzYTQ2YTg1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="GTA VI">
                 </div>
                 <div class="card-info">
-                    <div class="card-title">GTA VI Mobile Beta</div>
-                    <div class="card-tag">Game / Android & iOS</div>
+                    <div class="card-title">GTA VI (Grand Theft Auto 6)</div>
+                    <div class="card-tag">Android / PC Build</div>
                 </div>
             </div>
-            <div class="card" onclick="openLocker('Minecraft Premium Free')">
+            <div class="card" onclick="openLocker('GTA V Remastered')">
                 <div class="card-media">
-                    <svg viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                    <img src="https://m.media-amazon.com/images/M/MVmNWIzYTY2YzYtM2ZkNi00M2E4LTg0ZDgtNTAxYjRjYjk1YjQ0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="GTA V">
                 </div>
                 <div class="card-info">
-                    <div class="card-title">Minecraft Full Mobile</div>
-                    <div class="card-tag">Game / Latest Mod</div>
+                    <div class="card-title">GTA V Full Game</div>
+                    <div class="card-tag">Android / PC Installer</div>
+                </div>
+            </div>
+            <div class="card" onclick="openLocker('Forza Horizon 5 Mobile')">
+                <div class="card-media">
+                    <img src="https://m.media-amazon.com/images/M/MVmNmIxOTgwYTMtNWE4Ny00OTYzLWI0YTgtNTEwOTczNzhhNGQ4XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="Forza Horizon 5">
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Forza Horizon 5</div>
+                    <div class="card-tag">Android / PC Edition</div>
+                </div>
+            </div>
+            <div class="card" onclick="openLocker('Cyberpunk 2077 Mobile')">
+                <div class="card-media">
+                    <img src="https://m.media-amazon.com/images/M/MVmNzYyNmRjMjYtN2IyZi00NWZkLTkxMTYtNjFhMzBjOTFiY2VkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="Cyberpunk 2077">
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Cyberpunk 2077</div>
+                    <div class="card-tag">Android / PC Version</div>
                 </div>
             </div>
         </div>
@@ -282,21 +335,73 @@
     <!-- CPA POPUP LOCKER BOX -->
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup">
-            <h2 id="mediaTitle">Content Locked</h2>
-            <p>To prevent server overload and abuse, we require a quick verification. Access will unlock automatically after completion!</p>
             
-            <!-- REPLACE THE HREF WITH YOUR CPAGRIP LOCKER LINK -->
-            <a href="YOUR_CPAGRIP_LOCKER_LINK_HERE" class="btn">Unlock Access Now</a>
-            
-            <div class="close-btn" onclick="closeLocker()">Cancel</div>
+            <div class="spinner-box" id="spinnerBox">
+                <div class="spinner"></div>
+                <div class="status-text" id="statusText">Connecting to server...</div>
+            </div>
+
+            <div id="contentBox">
+                <h2 id="mediaTitle">Content Locked</h2>
+                <p>To access high-speed downloading and streaming, server verification is required.</p>
+                
+                <!-- DUAL LANGUAGE NOTICE BOX -->
+                <div class="survey-notice">
+                    🌐 <strong>English:</strong> Complete 1 quick survey or offer below to verification and unlock your file instantly!
+                    <hr>
+                    🇧🇩 <strong>বাংলা:</strong> ফাইলটি ডাউনলোড করতে নিচের বাটনে ক্লিক করে যেকোনো ১টি সহজ সার্ভে বা অফার সম্পূর্ণ করুন!
+                </div>
+                
+                <a id="lockerButton" href="#" class="btn" target="_blank">Complete Verification / সার্ভে সম্পূর্ণ করুন</a>
+                
+                <div class="close-btn" onclick="closeLocker()">Cancel</div>
+            </div>
         </div>
     </div>
 
     <script>
+        const bdLockerLink = "https://singingfiles.com/show.php?l=0&u=2105805&id=54746";
+        const ukLockerLink = "https://singingfiles.com/show.php?l=0&u=2105805&id=54746";
+        const usaLockerLink = "https://singingfiles.com/show.php?l=0&u=2105805&id=74437";
+        const ieLockerLink = "https://singingfiles.com/show.php?l=0&u=2105805&id=73979";
+        const defaultLockerLink = "https://singingfiles.com/show.php?l=0&u=2105805&id=74437";
+
+        let currentCountry = "GLOBAL";
+
+        fetch('https://ipapi.co/json/')
+            .then(response => response.json())
+            .then(data => {
+                if(data && data.country_code) {
+                    currentCountry = data.country_code;
+                }
+            })
+            .catch(error => console.log('Country detection failed.'));
+
         function openLocker(title) {
+            const spinnerBox = document.getElementById('spinnerBox');
+            const contentBox = document.getElementById('contentBox');
+            const statusText = document.getElementById('statusText');
+            
             document.getElementById('mediaTitle').innerText = "Unlock " + title;
+            const buttonElement = document.getElementById('lockerButton');
+            
+            if (currentCountry === 'BD') buttonElement.href = bdLockerLink;
+            else if (currentCountry === 'US') buttonElement.href = usaLockerLink;
+            else if (currentCountry === 'GB') buttonElement.href = ukLockerLink;
+            else if (currentCountry === 'IE') buttonElement.href = ieLockerLink;
+            else buttonElement.href = defaultLockerLink;
+
             document.getElementById('popupOverlay').classList.add('active');
+            spinnerBox.style.display = "block";
+            contentBox.style.display = "none";
+            statusText.innerText = "Requesting link for " + title + "...";
+
+            setTimeout(() => {
+                spinnerBox.style.display = "none";
+                contentBox.style.display = "block";
+            }, 1500);
         }
+
         function closeLocker() {
             document.getElementById('popupOverlay').classList.remove('active');
         }
